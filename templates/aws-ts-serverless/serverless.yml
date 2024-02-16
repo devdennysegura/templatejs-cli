@@ -1,0 +1,45 @@
+service: serverlessSetup
+
+plugins:
+  - serverless-plugin-typescript
+  - serverless-offline
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: us-east-1
+  environment:
+    DB_USER: ${env:PGDB_USER}
+    DB_HOST: ${env:DB_HOST}
+    DB_DATABASE: ${env:DB_DATABASE}
+    DB_PASSWORD: ${env:DB_PASSWORD}
+    DB_PORT: ${env:DB_PORT}
+
+functions:
+  simpleFunction:
+    handler: src/functions/simpleFunction.handler
+    events:
+      - http:
+          path: simple
+          method: get
+
+  apiFunction:
+    handler: src/functions/apiFunction.handler
+    events:
+      - http:
+          path: api
+          method: get
+          
+  dbFunction:
+    handler: src/functions/dbFunction.handler
+    events:
+      - http:
+          path: db
+          method: get
+          
+  authFunction:
+    handler: src/functions/authFunction.handler
+    events:
+      - http:
+          path: auth
+          method: get
